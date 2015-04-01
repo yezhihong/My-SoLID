@@ -1,0 +1,12 @@
+
+*FYUKAWA
+      REAL FUNCTION FYUKAWA(QMS,A)
+      IMPLICIT REAL (A-H,O-Z)
+      IF(QMS.LT.1.E-5.OR.A.LT.1.E-5)THEN
+      FYUKAWA=0.
+      ELSE
+      ARG=SQRT(QMS/2.)/A
+      FYUKAWA=ATAN(ARG)/ARG
+      ENDIF
+      RETURN
+      END

@@ -1,0 +1,7 @@
+
+*RECOIL
+      REAL FUNCTION RECOIL(E,THR,TM)
+      IMPLICIT REAL (A-H,O-Z)
+      RECOIL=1./(1.+2.*E*SIN(THR/2.)**2/TM)
+      RETURN
+      END

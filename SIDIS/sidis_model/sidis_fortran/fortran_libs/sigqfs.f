@@ -1,0 +1,69 @@
+
+*SIGQFS
+      REAL FUNCTION SIGQFS(E,TH,W,Z,A,EPS,PF)
+      IMPLICIT REAL (A-H,O-Z)
+      PM=939.
+      UP=2.7928456
+      UN=-1.91304184
+      AP0=840.
+      AP1=750.
+      ALPH=1./137.03604
+      HBARC=197.32858
+      PI=ACOS(-1.)
+      GAMR=120.
+      PFR=230.
+      QMSRQ=4.*730.*(730.-115.)*SIN(37.1*PI/180./2.)**2
+      QVSRQ=QMSRQ+115.**2
+      NA=INT(A)
+      IF(NA.EQ.1)THEN
+      AP=AP0
+      ELSEIF(NA.LT.4)THEN
+      AP=AP0+(A-1.)*(AP1-AP0)/3.
+      ELSE
+      AP=AP1
+      ENDIF
+C     PRINT 200
+  200 FORMAT(' ENTER DE-E[MEV],DOMEGA-E[SR],B-LUMINOSITY[CM-2*S-1]')
+C     READ *,DEE,DWE,BLUM
+      THR=TH*PI/180.
+      QMS=4.*E*(E-W)*SIN(THR/2.)**2
+      QVS=QMS+W**2
+      EKAPPA=W-QMS/2./PM
+      IF(EKAPPA.GT.-PM/2.)THEN
+      CMTOT=SQRT(PM**2+2.*PM*EKAPPA)
+      ELSE
+      CMTOT=PM
+      ENDIF
+C  START QFS SECTION
+      SIGNS=SIGMOT(E,THR)*RECOIL(E,THR,PM)
+      FORMP=1.+QMS*UP**2/4./PM**2
+      FORMP=FORMP/(1.+QMS/4./PM**2)
+      FORMP=FORMP+QMS*UP**2*TAN(THR/2.)**2/2./PM**2
+      FORMP=FORMP*FD(QMS,AP)**2
+      SIGEP=SIGNS*FORMP
+      FALLOFF=(1.+5.6*QMS/4./PM**2)**2
+      FORMN=(QMS*UN/4./PM**2)**2/FALLOFF+QMS*UN**2/4./PM**2
+      FORMN=FORMN/(1.+QMS/4./PM**2)
+      FORMN=FORMN+QMS*UN**2*TAN(THR/2.)**2/2./PM**2
+      FORMN=FORMN*FD(QMS,AP)**2
+      SIGEN=SIGNS*FORMN
+      EPQ=4.*E**2*SIN(THR/2.)**2/2./PM
+      EPQ=EPQ/(1.+2.*E*SIN(THR/2.)**2/PM)+EPS
+      EPQ=E-EPQ
+      IF(INT(A).EQ.1)THEN
+      ARG=(E-W-EPQ)/SQRT(2.)/1.
+      DEN=2.51
+      ELSE
+      GAMQ=GAMR*PF*SQRT(QVS)/PFR/SQRT(QVSRQ)
+      ARG=(E-W-EPQ)/1.20/(GAMQ/2.)
+      DEN=2.13*(GAMQ/2.)
+      ENDIF
+      NQ=INT(ARG)
+      IF(ABS(NQ).GT.10)THEN
+      SIGQ=0.
+      ELSE
+      SIGQ=(Z*SIGEP+(A-Z)*SIGEN)*EXP(-ARG**2)/DEN
+      ENDIF
+      SIGQFS=SIGQ
+      RETURN
+      END
