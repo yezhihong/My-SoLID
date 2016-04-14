@@ -179,7 +179,7 @@ int main(Int_t argc, char *argv[]){
 					target_flag, particle_flag);
 
 			mom_ele = sidis->mom_ele; theta_ele = sidis->theta_ele; phi_ele = sidis->phi_ele;
-			mom_had = sidis->mom_had; theta_had = sidis->theta_had; phi_ele = sidis->phi_had;
+			mom_had = sidis->mom_had; theta_had = sidis->theta_had; phi_had = sidis->phi_had;
 			theta_q=sidis->theta_q;  theta_s=sidis->theta_s; phi_s= sidis->phi_s; phi_h = sidis->phi_h;
 
 			x=sidis->x; y=sidis->y; z=sidis->z; Q2=sidis->Q2; W=sidis->W; Wp=sidis->Wp;
